@@ -1,0 +1,10 @@
+# ENA accession number
+accession: A00145
+# retrieval dataformat
+dataformat: fasta
+# base range
+# leave blank if retriving whole genome
+start: 
+finish:
+# output file name
+outfile: example.fasta
