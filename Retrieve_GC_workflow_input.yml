@@ -1,0 +1,12 @@
+accession: A00145
+dataformat: fasta
+start: "0"
+finish: ""
+outfile: intermedaite.fasta
+
+script: 
+  class: File
+  path: naiveGC.py
+
+length: "5"
+outputfile: A00145.wig
