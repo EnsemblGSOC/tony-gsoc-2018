@@ -1,0 +1,10 @@
+script: 
+  class: File
+  path: naiveGC.py
+genomefile:
+  class: File
+  path: example.fasta
+start: "0"
+# basepair window size
+length: "5"
+outputfile: example.wig
