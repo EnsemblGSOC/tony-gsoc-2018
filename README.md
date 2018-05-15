@@ -20,5 +20,5 @@ A simple implementation of GC analysis algorithm in Python.
 Example usage:
 ```bash
 python naiveGC.py genome_file_in_fasta_format starting_position window_size output_file_name
-python naiveGC.py GRCh38-Chrom17.fasta, 0, 5, GRCh38-Chrom17.wig
+python naiveGC.py "GRCh38-Chrom17.fasta" 0 5 "GRCh38-Chrom17.wig"
 
