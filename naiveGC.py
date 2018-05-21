@@ -1,16 +1,29 @@
 import sys
+import argparse as ap
 
-# test input
-## sys.argv = [1, "GRCh38-Chrom17.fasta", 0, 5, "GRCh38-Chrom17.wig"]
+parser = ap.ArgumentParser()
+parser.add_argument("input_file", type=str, help="Name of the input file in FASTA format")
+parser.add_argument("-o", "--output_file", type=str, help="Name of the output file")
+parser.add_argument("window_size", type=int, help="Number of base pairs where the GC percentage is calculated for")
+parser.add_argument("shift", type=int, help="The shift increment")
+parser.add_argument("-ot", "--omit_tail", action="store_true", help="True: if the trailing sequence should be omitted. "
+                                                                    "Default behaviour is to retain the leftover"
+                                                                    "sequence.")
+parser.add_argument("-f", "--output_format", type=str, choices=["wig", "wiggle", "bigwig", "bw", "gzip"])
+args = parser.parse_args()
 
 # commandline arguments
-genomefile = sys.argv[1]
-basepair_location = int(sys.argv[2])
-window_size = int(sys.argv[3])
+genomefile = args.input_file
+basepair_location = 0
+window_size = args.window_size
 counter = 0
 percentage = 0
 percentage_bp = 1 / window_size * 100
-result = open(sys.argv[4], "w+")
+
+if args.output_file:
+    result = open(args.output_file, "w+")
+else:
+    result = open(args.input_file.split(".")[0] + ".wig", "w+")
 
 with open(genomefile) as f:
     # read track line
