@@ -2,34 +2,34 @@
 
 cwlVersion: v1.0
 class: CommandLineTool
-baseCommand: python
+baseCommand: GC_analysis
 hints:
   DockerRequirement:
-    dockerPull: python:3.6.5-alpine3.7
+    dockerPull: tonyyzy/gc_analysis
 inputs:
-  script:
-    type: File
-    inputBinding:
-      position: 1
   genomefile:
     type: File
     inputBinding:
+      prefix: -i
       position: 2
-  start:
+  window_size:
     type: string
     inputBinding:
+      prefix: -w
       position: 3
-  length:
+  step:
     type: string
     inputBinding:
+      prefix: -s
       position: 4
   outputfile:
     type: string
     inputBinding:
+      prefix: -o
       position: 5
 outputs:
   output:
     type: File
     outputBinding:
-      glob: $(inputs.outputfile)
+      glob: $(inputs.outputfile).wig
   

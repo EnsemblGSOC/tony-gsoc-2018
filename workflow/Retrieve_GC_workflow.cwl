@@ -5,14 +5,11 @@ class: Workflow
 inputs:
   accession: string
   dataformat: string
-  start: string
-  finish: string
-  outfile: string
-#  position: string
-  
-  script: File
-  length: string
+  seqfile: string
   outputfile: string
+  window_size: string
+  step: string
+  format: string
   
 outputs:
   wigout:
@@ -25,18 +22,16 @@ steps:
     in:
       accession: accession
       dataformat: dataformat
-      start: start
-      finish: finish
-      outfile: outfile
+      seqfile: seqfile
     out: [output]
   
   GC:
-    run: python_GC.cwl
+    run: GC_analysis.cwl
     in:
-      script: script
       genomefile: download/output
-      start: start
-      length: length
+      window_size: window_size
+      step: step
+      format: format
       outputfile: outputfile
     out: [output]
     

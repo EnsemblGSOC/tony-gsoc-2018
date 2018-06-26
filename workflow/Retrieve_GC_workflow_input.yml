@@ -1,0 +1,7 @@
+accession: A00145
+dataformat: fasta
+seqfile: int1.fasta
+window_size: "5"
+step: "5"
+format: "wiggle"
+outputfile: A00145
