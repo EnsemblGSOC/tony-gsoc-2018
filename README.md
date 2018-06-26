@@ -14,11 +14,7 @@ This script takes an ENA accession number as input, utilises ENA's REST api to f
 
 A cwl wrapper of *naiveGC.py*. This script takes a fasta formatted nucletotide sequence and outputs calculated GC analysis result in wiggle format. Example input is given in *python_GC.cwl*.
 
-## naiveGC.py
+## naiveGC.py (GC_analysis.py)
 
-A simple implementation of GC analysis algorithm in Python.
-Example usage:
-```bash
-python naiveGC.py genome_file_in_fasta_format starting_position window_size output_file_name
-python naiveGC.py "GRCh38-Chrom17.fasta" 0 5 "GRCh38-Chrom17.wig"
+An implementation of GC analysis algorithm in Python. This project is now hosted under https://github.com/tonyyzy/GC_analysis
 
