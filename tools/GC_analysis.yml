@@ -4,4 +4,4 @@ genomefile:
 window_size: "5"
 step: "5"
 format: "wiggle"
-outputfile: a
+outputfile: "a"

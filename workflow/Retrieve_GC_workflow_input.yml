@@ -4,4 +4,4 @@ seqfile: int1.fasta
 window_size: "5"
 step: "5"
 format: "wiggle"
-outputfile: A00145
+outputfile: "A00145"

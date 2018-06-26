@@ -18,7 +18,7 @@ outputs:
 
 steps:
   download:
-    run: curl-retrieval.cwl
+    run: ../tools/curl-retrieval.cwl
     in:
       accession: accession
       dataformat: dataformat
@@ -26,7 +26,7 @@ steps:
     out: [output]
   
   GC:
-    run: GC_analysis.cwl
+    run: ../tools/GC_analysis.cwl
     in:
       genomefile: download/output
       window_size: window_size
