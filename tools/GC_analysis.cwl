@@ -27,6 +27,11 @@ inputs:
     inputBinding:
       prefix: -o
       position: 5
+  omittail:
+    type: string
+    default: null
+    inputBinding:
+      position: 6
 outputs:
   output:
     type: File

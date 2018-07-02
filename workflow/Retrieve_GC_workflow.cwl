@@ -10,6 +10,10 @@ inputs:
   window_size: string
   step: string
   format: string
+  omittail:
+    type: string
+    default: null
+  
   
 outputs:
   wigout:
@@ -33,5 +37,6 @@ steps:
       step: step
       format: format
       outputfile: outputfile
+      omittail: omittail
     out: [output]
     
