@@ -5,7 +5,7 @@ class: CommandLineTool
 baseCommand: trf
 hints:
   DockerRequirement:
-    dockerPull: quay.io/biocontainers/trf
+    dockerPull: quay.io/biocontainers/trf:4.09--1
 inputs:
   genomefile:
     type: File
@@ -42,7 +42,9 @@ inputs:
     
 outputs:
   output:
-    type: File
+    type:
+      type: array
+      items: File
     outputBinding:
-      glob: $(inputs.outputfile).wig
+      glob: "*.html"
   

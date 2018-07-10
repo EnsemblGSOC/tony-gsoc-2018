@@ -1,0 +1,10 @@
+genomefile:
+  class: File
+  path: example.fasta
+match: "2"
+mismatch: "7"
+delta: "7"
+PM: "80"
+PI: "10"
+minscore: "50"
+maxperiod: "500"
