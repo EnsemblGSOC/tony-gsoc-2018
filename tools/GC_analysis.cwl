@@ -11,32 +11,32 @@ inputs:
     type: File
     inputBinding:
       prefix: -i
-      position: 2
+      position: 1
   window_size:
     type: string
     inputBinding:
       prefix: -w
-      position: 3
+      position: 2
   step:
     type: string
     inputBinding:
       prefix: -s
-      position: 4
+      position: 3
   outputfile:
     type: string
     inputBinding:
       prefix: -o
-      position: 5
-  format:
-    type: string
-    inputBinding:
-      prefix: -f
-      position: 6
+      position: 4
   omittail:
     type: string
     default: null
     inputBinding:
-      position: 7
+      position: 6
+  outformat:
+    type: string
+    inputBinding:
+      prefix: -f
+      position: 5
 outputs:
   output:
     type: File

@@ -3,6 +3,6 @@ genomefile:
   path: ex1.fasta
 window_size: "5"
 step: "5"
-format: "wiggle"
 outputfile: "a"
+outformat: "wiggle"
 omittail: 

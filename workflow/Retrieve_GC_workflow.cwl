@@ -9,7 +9,7 @@ inputs:
   outputfile: string
   window_size: string
   step: string
-  format: string
+  outformat: string
   omittail:
     type: string
     default: null
@@ -35,7 +35,7 @@ steps:
       genomefile: download/output
       window_size: window_size
       step: step
-      format: format
+      outformat: outformat
       outputfile: outputfile
       omittail: omittail
     out: [output]
