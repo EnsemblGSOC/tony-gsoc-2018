@@ -1,0 +1,8 @@
+accession: A00145
+dataformat: fasta
+seqfile: int1.fasta
+window_size: "5"
+step: "5"
+format: "gzip"
+outputfile: "ex1_5_5_gz_ot_test"
+omittail: "-ot"
