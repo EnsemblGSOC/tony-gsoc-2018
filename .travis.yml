@@ -1,0 +1,25 @@
+language: python
+
+sudo: required
+os: linux
+dist: trusty
+group: edge
+
+services:
+    - docker
+python:
+    - "3.6"
+
+env:
+    matrix:
+        - TESTENV=tests
+
+# before_install:
+#   - apt-get install docker
+# command to install dependencies
+install:
+    - if [[ "$TESTENV" == "tests" ]]; then pip3 install cwlref-runner;fi
+
+# command to run tests
+script:
+    - if [[ "$TESTENV" == "tests" ]]; then pytest tests; fi
