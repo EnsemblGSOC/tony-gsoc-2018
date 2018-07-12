@@ -31,15 +31,15 @@ inputs:
     type: string
     default: null
     inputBinding:
-      position: 6
+      position: 5
   outformat:
     type: string
     inputBinding:
       prefix: -f
-      position: 5
+      position: 6
 outputs:
   output:
     type: File
     outputBinding:
-      glob: $(inputs.outputfile).wig
+      glob: $(inputs.outputfile).*
   
