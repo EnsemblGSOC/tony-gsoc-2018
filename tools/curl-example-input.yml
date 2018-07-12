@@ -1,8 +1,9 @@
 # ENA accession number
-accession: A00145
+# accession: "A00145"
 # retrieval dataformat
-dataformat: fasta
+# dataformat: "fasta"
 # base range
 # leave blank if retriving whole genome
 # output file name
+url: "https://www.ebi.ac.uk/ena/data/view/A00145&display=fasta"
 seqfile: "example.fasta"

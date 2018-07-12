@@ -6,13 +6,18 @@ baseCommand: curl
 hints:
   DockerRequirement:
     dockerPull: sequenceiq/alpine-curl
-arguments: ["https://www.ebi.ac.uk/ena/data/view/$(inputs.accession)&display=$(inputs.dataformat)"]
+# arguments: ["https://www.ebi.ac.uk/ena/data/view/$(inputs.accession)&display=$(inputs.dataformat)"]
 inputs:
+  url:
+    type: string
+    inputBinding:
+      position: 1
+    
   seqfile:
     type: string
     inputBinding:
       prefix: -o
-      position: 1
+      position: 2
 outputs:
   output:
     type: File
