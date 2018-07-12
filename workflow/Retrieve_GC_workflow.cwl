@@ -3,8 +3,7 @@
 cwlVersion: v1.0
 class: Workflow
 inputs:
-  accession: string
-  dataformat: string
+  url: string
   seqfile: string
   outputfile: string
   window_size: string
@@ -24,8 +23,7 @@ steps:
   download:
     run: ../tools/curl-retrieval.cwl
     in:
-      accession: accession
-      dataformat: dataformat
+      url: url
       seqfile: seqfile
     out: [output]
   
