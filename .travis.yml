@@ -14,8 +14,9 @@ env:
     matrix:
         - TESTENV=tests
 
-# before_install:
-#   - apt-get install docker
+before_install:
+  - wget http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/bigWigToWig
+  - chmod +x ./bigWigToWig
 # command to install dependencies
 install:
     - if [[ "$TESTENV" == "tests" ]]; then pip3 install cwlref-runner;fi
