@@ -1,8 +1,7 @@
-accession: A00145
-dataformat: fasta
+url: "https://www.ebi.ac.uk/ena/data/view/A00145&display=fasta"
 seqfile: int1.fasta
 window_size: "5"
 step: "5"
-format: "bigwig"
+outformat: "bigwig"
 outputfile: "ex1_5_5_ot_bw_test"
 omittail: "-ot"
