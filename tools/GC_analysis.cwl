@@ -37,6 +37,11 @@ inputs:
     inputBinding:
       prefix: -f
       position: 6
+  singlefile:
+    type: string
+    default: null
+    inputBinding:
+      position: 7
 outputs:
   output:
     type: File

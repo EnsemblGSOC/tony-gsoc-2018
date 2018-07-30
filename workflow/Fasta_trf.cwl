@@ -3,8 +3,7 @@
 cwlVersion: v1.0
 class: Workflow
 inputs:
-  accession: string
-  dataformat: string
+  url: string
   seqfile: string
   match: string
   mismatch: string
@@ -13,11 +12,14 @@ inputs:
   PI: string
   minscore: string
   maxperiod: string
-  
-  
-  
+  flanking_sequence: string
+  data_file: string
+  masked_sequence: string
   
 outputs:
+  intout:
+    type: File
+    outputSource: download/output
   dataout:
     type:
       type: array
@@ -28,8 +30,7 @@ steps:
   download:
     run: ../tools/curl-retrieval.cwl
     in:
-      accession: accession
-      dataformat: dataformat
+      url: url
       seqfile: seqfile
     out: [output]
   
@@ -44,5 +45,8 @@ steps:
       PI: PI
       minscore: minscore
       maxperiod: maxperiod
+      flanking_sequence: flanking_sequence
+      data_file: data_file
+      masked_sequence: masked_sequence
     out: [output]
     

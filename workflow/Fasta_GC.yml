@@ -1,4 +1,4 @@
-url: "https://www.ebi.ac.uk/ena/data/view/A00145&display=$fasta"
+url: "https://www.ebi.ac.uk/ena/data/view/A00145&display=fasta"
 seqfile: "int1.fasta"
 window_size: "5"
 step: "5"

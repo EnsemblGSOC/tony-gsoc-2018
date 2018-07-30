@@ -3,3 +3,4 @@
 workflow/A00145.wig
 *.html
 .pytest_cache
+bigWigToWig

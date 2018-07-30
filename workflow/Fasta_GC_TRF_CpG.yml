@@ -1,9 +1,7 @@
-genomefile:
-  class: File
-  path: "A00145.fasta"
+accession: "A00145"
+dataformat: "fasta"
 window_size: "5"
 step: "5"
-outputfile: "a"
 outformat: "wiggle"
 omittail: "-ot"
 singlefile: "-one"

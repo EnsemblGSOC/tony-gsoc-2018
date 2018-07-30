@@ -1,0 +1,12 @@
+url: "https://www.ebi.ac.uk/ena/data/view/A00145&display=fasta"
+seqfile: A00145.fasta
+match: "2"
+mismatch: "7"
+delta: "7"
+PM: "80"
+PI: "10"
+minscore: "50"
+maxperiod: "500"
+flanking_sequence: "-f"
+data_file: "-d"
+masked_sequence: "-m"

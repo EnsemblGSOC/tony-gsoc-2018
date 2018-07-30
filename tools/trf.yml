@@ -1,10 +1,14 @@
 genomefile:
   class: File
-  path: example.fasta
+  path: ../../OCQW01.fasta
 match: "2"
-mismatch: "7"
+mismatch: "5"
 delta: "7"
 PM: "80"
 PI: "10"
-minscore: "50"
+minscore: "40"
 maxperiod: "500"
+flanking_sequence: "-f"
+data_file: "-d"
+masked_sequence: "-m"
+suppress_html: "-h"
