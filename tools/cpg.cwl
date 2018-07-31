@@ -12,6 +12,7 @@ inputs:
     type: File
     inputBinding:
       position: 1
+
 outputs:
   output:
     type: stdout

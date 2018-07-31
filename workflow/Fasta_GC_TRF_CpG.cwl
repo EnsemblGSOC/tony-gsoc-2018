@@ -16,7 +16,17 @@ inputs:
   singlefile:
     type: string
     default: null
-    
+  match: string
+  mismatch: string
+  delta: string
+  PM: string
+  PI: string
+  minscore: string
+  maxperiod: string
+  flanking_sequence: string
+  data_file: string
+  masked_sequence: string
+  suppress_html: string
   
 outputs:
   fasta_out:
@@ -25,6 +35,14 @@ outputs:
   GCout:
     type: File
     outputSource: GC/output
+  TRFout:
+    type:
+      type: array
+      items: File
+    outputSource: TRF/output
+  CpG_out:
+    type: File
+    outputSource: CpG/output
 
 steps:
   Fasta:
@@ -47,5 +65,30 @@ steps:
       outputfile: accession
       omittail: omittail
       singlefile: singlefile
+    out: [output]
+  
+  TRF:
+    run: ../tools/trf.cwl
+    in:
+      genomefile:
+        source: Fasta/output
+      match: match
+      mismatch: mismatch
+      delta: delta
+      PM: PM
+      PI: PI
+      minscore: minscore
+      maxperiod: maxperiod
+      flanking_sequence: flanking_sequence
+      data_file: data_file
+      masked_sequence: masked_sequence
+      suppress_html: suppress_html
+    out: [output]
+  
+  CpG:
+    run: ../tools/cpg.cwl
+    in:
+      genomefile:
+       source: Fasta/output
     out: [output]
     

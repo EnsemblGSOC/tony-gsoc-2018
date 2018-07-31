@@ -1,4 +1,3 @@
 genomefile:
   class: File
   path: ../../OCQW01.fasta
-
