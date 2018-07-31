@@ -35,11 +35,15 @@ outputs:
   GCout:
     type: File
     outputSource: GC/output
-  TRFout:
-    type:
-      type: array
-      items: File
-    outputSource: TRF/output
+  TRF_dat_out:
+    type: File
+    outputSource: TRF/dat
+  TRF_mask_out:
+    type: File
+    outputSource: TRF/mask
+  TRF_bed_out:
+    type: File
+    outputSource: TRFdat_to_bed/output
   CpG_out:
     type: File
     outputSource: CpG/output
@@ -83,12 +87,19 @@ steps:
       data_file: data_file
       masked_sequence: masked_sequence
       suppress_html: suppress_html
+    out: [dat, mask]
+  
+  TRFdat_to_bed:
+    run: ../tools/trfdat_to_bed.cwl
+    in:
+      datfile:
+        source: TRF/dat
     out: [output]
   
   CpG:
     run: ../tools/cpg.cwl
     in:
       genomefile:
-       source: Fasta/output
+       source: TRF/mask
     out: [output]
     

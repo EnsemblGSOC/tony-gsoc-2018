@@ -60,10 +60,12 @@ inputs:
       position: 12
     
 outputs:
-  output:
-    type:
-      type: array
-      items: File
+  dat:
+    type: File
     outputBinding:
-      glob: "*.*"
+      glob: "*.dat"
+  mask:
+    type: File
+    outputBinding:
+      glob: "*.mask"
   
