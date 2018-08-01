@@ -47,6 +47,9 @@ outputs:
   CpG_out:
     type: File
     outputSource: CpG/output
+  md5_out:
+    type: File
+    outputSource: md5/output
 
 steps:
   Fasta:
