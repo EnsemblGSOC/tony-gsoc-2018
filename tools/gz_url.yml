@@ -1,0 +1,4 @@
+accession: "GCA_900019285.2"
+script:
+  class: File
+  path: "../scripts/gz_url.py"

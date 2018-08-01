@@ -27,6 +27,8 @@ inputs:
   data_file: string
   masked_sequence: string
   suppress_html: string
+  script:
+    type: File
   
 outputs:
   fasta_out:
@@ -49,19 +51,23 @@ outputs:
     outputSource: CpG/output
 
 steps:
-  Fasta:
-    run: ../tools/curl-retrieval.cwl
+  wgs_url:
+    run: ../tools/gz_url.cwl
     in:
       accession: accession
-      dataformat: dataformat
-      seqfile:
-        valueFrom: $(inputs.accession).$(inputs.dataformat)
+      script: script
+    out: [output]
+  gz:
+    run: ../tools/curl_ftp.cwl
+    in:
+      accession: accession
+      url: wgs_url/output
     out: [output]
   
-  md5:
-    run: ../tools/md5.cwl
+  Fasta:
+    run: ../tools/gz.cwl
     in:
-      genomefile: Fasta/output
+      gzfile: gz/output
     out: [output]
   
   GC:

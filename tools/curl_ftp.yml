@@ -1,0 +1,6 @@
+# ENA accession number
+accession: "A00145"
+# retrieval dataformat
+url:
+  class: File
+  path: "../GCA_900019285.2.url"

@@ -1,0 +1,4 @@
+genomefile:
+  class: File
+  path: ../../A00145.fasta
+tail: ""

@@ -1,0 +1,3 @@
+gzfile:
+  class: File
+  path: ../../FTQW01.fasta.gz
