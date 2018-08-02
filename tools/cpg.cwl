@@ -6,8 +6,10 @@ baseCommand: cpglh
 hints:
   DockerRequirement:
     dockerPull: tonyyzy/cpg_island_docker
-stdout: $(inputs.genomefile.nameroot).txt
+stdout: $(inputs.accession).CpG.txt
 inputs:
+  accession:
+    type: string
   genomefile:
     type: File
     inputBinding:

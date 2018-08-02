@@ -111,6 +111,7 @@ steps:
   CpG:
     run: ../tools/cpg.cwl
     in:
+      accession: accession
       genomefile:
        source: TRF/mask
     out: [output]
