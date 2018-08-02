@@ -17,4 +17,4 @@ masked_sequence: "-m"
 suppress_html: "-h"
 script:
   class: File
-  path: "../scripts/gz_url.py"
+  path: "/hps/nobackup2/production/ensembl/tony/tony-gsoc-2018/scripts/gz_url.py"

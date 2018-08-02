@@ -2,7 +2,7 @@
 
 cwlVersion: v1.0
 class: CommandLineTool
-baseCommand: python
+baseCommand: /nfs/software/ensembl/RHEL7-JUL2017-core2/pyenv/versions/tony_cwltool/bin/python
 inputs:
   script:
     type: File
