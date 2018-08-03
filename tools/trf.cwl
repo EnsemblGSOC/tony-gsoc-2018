@@ -6,6 +6,11 @@ baseCommand: trf
 hints:
   DockerRequirement:
     dockerPull: quay.io/biocontainers/trf:4.09--1
+requirements:
+  ResourceRequirement:
+    tmpdirMin: 30000
+    outdirMin: 30000
+    ramMin: 8000
 inputs:
   genomefile:
     type: File

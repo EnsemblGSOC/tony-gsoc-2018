@@ -9,6 +9,11 @@ hints:
 arguments:
   - --bed
   - valueFrom: $(inputs.datfile.nameroot).bed
+requirements:
+  ResourceRequirement:
+    tmpdirMin: 10000
+    outdirMin: 10000
+    ramMin: 5000
 inputs:
   datfile:
     type: File

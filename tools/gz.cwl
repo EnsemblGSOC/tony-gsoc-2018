@@ -6,7 +6,11 @@ baseCommand: gzip
 arguments:
   - -d
   - -c
-
+requirements:
+  ResourceRequirement:
+    tmpdirMin: 30000
+    outdirMin: 30000
+    ramMin: 5000
 stdout: $(inputs.gzfile.nameroot)
 inputs:
   gzfile:

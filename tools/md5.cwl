@@ -6,6 +6,10 @@ requirements:
   - class: ShellCommandRequirement
 baseCommand: 
 stdout: $(inputs.genomefile.nameroot).md5
+requirements:
+  ResourceRequirement:
+    tmpdirMin: 20000
+    outdirMin: 20000
 inputs:
   genomefile:
     type: File

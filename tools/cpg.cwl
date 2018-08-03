@@ -3,6 +3,9 @@
 cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: cpglh
+requirements:
+  ResourceRequirement:
+    ramMin: 5000
 hints:
   DockerRequirement:
     dockerPull: tonyyzy/cpg_island_docker

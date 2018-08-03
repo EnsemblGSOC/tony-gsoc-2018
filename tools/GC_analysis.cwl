@@ -6,6 +6,11 @@ baseCommand: GC_analysis
 hints:
   DockerRequirement:
     dockerPull: tonyyzy/gc_analysis
+requirements:
+  ResourceRequirement:
+    tmpdirMin: 50000
+    outdirMin: 50000
+    ranMin: 6000
 inputs:
   genomefile:
     type: File

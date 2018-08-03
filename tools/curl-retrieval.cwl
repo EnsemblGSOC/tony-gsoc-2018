@@ -6,6 +6,10 @@ baseCommand: curl
 hints:
   DockerRequirement:
     dockerPull: sequenceiq/alpine-curl
+requirements:
+  ResourceRequirement:
+    tmpdirMin: 20000
+    outdirMin: 20000
 arguments:
   - valueFrom: https://www.ebi.ac.uk/ena/data/view/$(inputs.accession)&display=$(inputs.dataformat)
 inputs:
