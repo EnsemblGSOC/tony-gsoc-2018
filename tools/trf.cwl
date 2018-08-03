@@ -10,7 +10,7 @@ requirements:
   ResourceRequirement:
     tmpdirMin: 30000
     outdirMin: 30000
-    ramMin: 8000
+    ramMin: 4000
 inputs:
   genomefile:
     type: File
