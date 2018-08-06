@@ -22,7 +22,7 @@ inputs:
     inputBinding:
       position: 1
       shellQuote: False
-      valueFrom: "tail -n +2 $(inputs.genomefile.path) | tr -d '\n' | md5sum"
+      valueFrom: "tail -n +2 $(inputs.genomefile.path) | tr -d '\n' | /nfs/software/ensembl/RHEL7-JUL2017-core2/linuxbrew/bin/md5sum"
 outputs:
   output:
     type: stdout
