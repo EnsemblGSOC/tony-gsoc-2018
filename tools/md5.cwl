@@ -12,7 +12,7 @@ requirements:
     outdirMin: 20000
   EnvVarRequirement:
     envDef:
-      PATH: /usr/bin
+      PATH: /nfs/software/ensembl/RHEL7-JUL2017-core2/linuxbrew/bin
 inputs:
   genomefile:
     type: File
