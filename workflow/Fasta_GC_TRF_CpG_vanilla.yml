@@ -17,4 +17,4 @@ masked_sequence: "-m"
 suppress_html: "-h"
 md5script:
   class: File
-  path: ../scripts/md5.sh
+  path: /hps/nobackup2/production/ensembl/tony/tony-gsoc-2018/scripts/md5.sh
