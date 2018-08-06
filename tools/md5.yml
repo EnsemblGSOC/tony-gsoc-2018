@@ -1,4 +1,7 @@
+source /etc/bashrc
 genomefile:
   class: File
   path: ../../A00145.fasta
-tail: ""
+md5script:
+  class: File
+  path: ../scripts/md5.sh

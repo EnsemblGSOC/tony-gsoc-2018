@@ -4,25 +4,23 @@ cwlVersion: v1.0
 class: CommandLineTool
 requirements:
   - class: ShellCommandRequirement
-baseCommand: 
+baseCommand: bash
 stdout: $(inputs.genomefile.nameroot).md5
 requirements:
   ResourceRequirement:
     tmpdirMin: 20000
     outdirMin: 20000
-  EnvVarRequirement:
-    envDef:
-      PATH: /nfs/software/ensembl/RHEL7-JUL2017-core2/linuxbrew/bin
+
 inputs:
-  genomefile:
+  md5script:
     type: File
-  tail:
-    type: string
-    default: " "
     inputBinding:
       position: 1
-      shellQuote: False
-      valueFrom: "tail -n +2 $(inputs.genomefile.path) | tr -d '\n' | /nfs/software/ensembl/RHEL7-JUL2017-core2/linuxbrew/bin/md5sum"
+  genomefile:
+    type: File
+    inputBinding:
+      position: 2
+
 outputs:
   output:
     type: stdout
