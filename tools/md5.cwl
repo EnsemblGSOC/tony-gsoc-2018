@@ -10,6 +10,9 @@ requirements:
   ResourceRequirement:
     tmpdirMin: 20000
     outdirMin: 20000
+  EnvVarRequirement:
+    envDef:
+      PATH: /usr/bin
 inputs:
   genomefile:
     type: File
