@@ -27,6 +27,8 @@ inputs:
   data_file: string
   masked_sequence: string
   suppress_html: string
+  md5script:
+    type: File
   
 outputs:
   fasta_out:
@@ -65,6 +67,7 @@ steps:
     run: ../tools/md5.cwl
     in:
       genomefile: Fasta/output
+      md5script: md5script
     out: [output]
   
   GC:

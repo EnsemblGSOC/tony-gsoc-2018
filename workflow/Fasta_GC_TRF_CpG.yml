@@ -16,3 +16,6 @@ flanking_sequence: "-f"
 data_file: "-d"
 masked_sequence: "-m"
 suppress_html: "-h"
+md5script:
+  class: File
+  path: ../scripts/md5.sh
