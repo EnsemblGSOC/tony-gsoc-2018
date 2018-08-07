@@ -1,6 +1,14 @@
-# tony-gsoc-2018
+# Google Summer of Code 2018 Final Work Product
+# Automated Processing of Primary Genome Analysis
+Tony Yang (tony@tony.tc)
 
-A CWL workflow that retrieves genomic sequence from ENA archive then calculates the GC percentage and writes to output file.
+## Abstract
+In this GSoC project, three phased goals were achieved.
+* A program to calculate the percentage of guanine and cytosine in genome sequences. ([repository link](https://github.com/tonyyzy/GC_analysis>))
+* Common Workflow Language (cwl) workflows that perform genome analysis. ([workflows](https://github.com/EnsemblGSOC/tony-gsoc-2018/tree/master/workflow), [commandline tools](https://github.com/EnsemblGSOC/tony-gsoc-2018/tree/master/tools))
+* A framework for running workflows on newly reported genome assemblies. ([scripts](https://github.com/EnsemblGSOC/tony-gsoc-2018/tree/master/scripts))
+
+## Introduction
 
 ## Main workflow script - Retrieve_GC_workflow.cwl
 
