@@ -93,3 +93,8 @@ It should be noted that two slightly different workflows are used for assemblies
 After checking all the finished jobs, `process_result.py` will back-propogate the results from Jobs table to Chromosome table and GCA table. If the sum of all the status under one accession is 0 in the Jobs table, the respective chromosome/assembly's status will be updated to 0. Upon completion, the script then look through Chromosome table, if the sum of status of all the chromosomes under one GCA_accession is 0, the status of the assembly will be marked as 0. When an assembly at chromosome level is finished, the folders of the chromosomes are copied to the assembly's folder.
 
 This workflow is designed to be modular and additional analysis can be added easily. The only modification necessary other than the cwl workflow itself is to add additional job_name in `Jobs` table and add tests for completion in `process_result.py` script.
+
+## Future works
+This project serves as a proof-of-concept that it is feasible to deploy a similar system for automated processing of primary genomic data. Currently, out of the 4000 accessions, 186 failed, most of the failure were due to unavailable FASTA file from ENA's archive. There are around 10 jobs hung for a long time or failed with no obvious reason. It is important and curious to look deeper into why they failed/could not complete.
+
+In the long term, more analyses can be included in the workflow to provide more comprehensive data. In addition, we are looking into how to provide easy and covenient public access to the analysis results.
