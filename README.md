@@ -4,17 +4,19 @@ Tony Yang (tony@tony.tc)
 
 ## Summary
 In this GSoC project, three phased goals were achieved.
-* A program to calculate the percentage of guanine and cytosine in genome sequences. ([repository link](https://github.com/tonyyzy/GC_analysis))
+* A program to calculate the percentage of guanine and cytosine in genomic sequences. ([repository link](https://github.com/tonyyzy/GC_analysis))
 * Common Workflow Language (cwl) workflows that perform genome analysis. ([workflows](https://github.com/EnsemblGSOC/tony-gsoc-2018/tree/master/workflow), [commandline tools](https://github.com/EnsemblGSOC/tony-gsoc-2018/tree/master/tools))
-* A framework for running workflows on newly reported genome assemblies. ([scripts](https://github.com/EnsemblGSOC/tony-gsoc-2018/tree/master/scripts))
+* A framework for running workflows on newly reported genome assemblies automatically. ([scripts](https://github.com/EnsemblGSOC/tony-gsoc-2018/tree/master/scripts))
 
 ## Background
-With the development of new sequencing machineries and their much-reduced cost, a large quantity of novel genome data is produced daily at an increasing rate by goverment and private funded genome projects. Hence, it is crucial to perform automated analyses on those data as they are produced.
+With the development of new sequencing machineries and their much-reduced cost, a large quantity of novel genome data is produced daily at an increasing rate by goverment and private funded genome projects. To accelerate genomic data analysis and gene annotation, it is crucial to process those primary data as they are produced automatically.
+
+A large varity of workflow languages were developed to connect tools and form pipelines but they lack portability and reporducibility. Common Workflow Language (CWL) was introduced as an open standard which serves data-intensive science. CWL documents, written in JSON or YAML, are used to describe the connection of different command line tools. Workflows described in CWL specification are easily portable and scalable in different computational environments, hence it is ideal for this project.
 
 ## What work was done?
-I started by writing a GC program in Python, which was the goal of the first phase of this GSoC project. This commandline program would take a fasta formatted file which contains one or more genome sequences, and calculate the GC percentage with a specified window-szie and shift then write the result to file. The output file format can be chosen among wiggle file, gzip compressed wiggle file or bigwig file. The results of multi-sequence input file can be a single file or separated to one sequence per file. This GC program can be executed as a Python script, from the pakcaged binary file, install the package from PYPI or run the docker image as a container. For detailed usage and options, please see the [repository](https://github.com/tonyyzy/GC_analysis).
+I started by writing a GC program in Python, which was the goal of the first phase of this GSoC project. This commandline program would take a fasta formatted file which contains one or more genomic sequences, and calculate the GC percentage with a specified window-szie and shift then write the result to file. The output file format can be chosen among wiggle file, gzip compressed wiggle file or bigwig file. The results of multi-sequence input file can be a single file or separated to one sequence per file. This GC program can be executed as a Python script, from the pakcaged binary file, install the package from PYPI or run the docker image as a container. For detailed usage and options, please see the [repository](https://github.com/tonyyzy/GC_analysis).
 
-For the second stage, I containerised my GC program into a docker image, along with several other tools and scripts. I also developed CWL commandline scripts for each of the tools (see [tools](https://github.com/EnsemblGSOC/tony-gsoc-2018/tree/master/tools)) and workflows to run all the analyses by providing an ENA accession number (see [workflows](https://github.com/EnsemblGSOC/tony-gsoc-2018/tree/master/workflow)). These CWL files set the stage for the deployment of the workflow to clusters. 
+For the second stage, I containerised my GC program into a [docker image](https://hub.docker.com/r/tonyyzy/gc_analysis/), along with several other tools and scripts. I also developed CWL commandline scripts for each of the tools (see [tools](https://github.com/EnsemblGSOC/tony-gsoc-2018/tree/master/tools)) and workflows to run all the analyses by providing an ENA accession number (see [workflows](https://github.com/EnsemblGSOC/tony-gsoc-2018/tree/master/workflow)). These CWL files set the stage for the deployment of the workflow to clusters. 
 
 For the final stage, I deployed the workflows to EBI's cluster. My Python [scripts](https://github.com/EnsemblGSOC/tony-gsoc-2018/tree/master/scripts) would retrieve a list of assemblies from a internal data base, which is updated daily, consists the ENA accessions for all the assemblies on ENA's archive. Subsequently, my scripts `Update_tables.py` would update my own MySQL database which holds information about the assemblies and their chromosomes, together with all jobs and their statuses. `submit_jobs.py` will generate the YAML input files for CWL and submit all waiting jobs to LSF with Toil (a CWL executor with batch system support). Finally, `process_result.py` would parse the CWL output and update the jobs' statuses accordingly, then aggregate the result to determine if a whole assembly's jobs are all done.
 
@@ -27,7 +29,7 @@ mysql> select * from assembly;
 | 42389       | GCA_000090745 | 1       | 1                  | ... | ... |
 | ...         | ...           | ...     | ...                | ... | ... |
 ```
-The columns I really need are the `chain` and `version` which give me the accession `GCA_000090745.1` when combined. This database updates daily.
+The columns I really need are `chain` and `version` which give me the accession `GCA_000090745.1` when combined. This database updates daily.
 My script `update_tables.py` checks if the accession already presents in my `GCA` table. `GCA` table looks like
 ```
 mysql> select * from GCA limit 5;
@@ -90,4 +92,4 @@ It should be noted that two slightly different workflows are used for assemblies
 
 After checking all the finished jobs, `process_result.py` will back-propogate the results from Jobs table to Chromosome table and GCA table. If the sum of all the status under one accession is 0 in the Jobs table, the respective chromosome/assembly's status will be updated to 0. Upon completion, the script then look through Chromosome table, if the sum of status of all the chromosomes under one GCA_accession is 0, the status of the assembly will be marked as 0. When an assembly at chromosome level is finished, the folders of the chromosomes are copied to the assembly's folder.
 
-This workflow is designed to be modular and additional analysis can be added easily. The only modification nessary other than the cwl workflow itself is to add additional job_name in `Jobs` table and add tests for completion in `process_result.py` script.
+This workflow is designed to be modular and additional analysis can be added easily. The only modification necessary other than the cwl workflow itself is to add additional job_name in `Jobs` table and add tests for completion in `process_result.py` script.
