@@ -5,3 +5,4 @@ workflow/A00145.wig
 .pytest_cache
 bigWigToWig
 scripts/submit_jobs.py
+config.py
