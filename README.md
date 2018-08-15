@@ -11,6 +11,8 @@ In this GSoC project, three phased goals were achieved.
 ## Background
 With the development of new sequencing machineries and their much-reduced cost, a large quantity of novel genome data is produced daily at an increasing rate by goverment and private funded genome projects. To accelerate genomic data analysis and gene annotation, it is crucial to process those primary data as they are produced automatically.
 
+GC content, the percentage of guanine (G) or cytosine (C) bases on a genome, provides vital information about this organism. Guanine (G) and cytosine (C) base pairs stack thermodynamically more favourable than adenine (A) and thymine (T) base pairs, hence stabilise the DNA. GC content is varied for different organisms and can provide evolutionary insights into particular organisms. A higher than background GC-content can indicate coding regions in a genomic sequence, which is useful to facilitate gene annotation. 
+
 A large varity of workflow languages were developed to connect tools and form pipelines but they lack portability and reporducibility. Common Workflow Language (CWL) was introduced as an open standard which serves data-intensive science. CWL documents, written in JSON or YAML, are used to describe the connection of different command line tools. Workflows described in CWL specification are easily portable and scalable in different computational environments, hence it is ideal for this project.
 
 ## What work was done?
