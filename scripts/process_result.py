@@ -1,16 +1,16 @@
-# Copyright 2018 Tony Zeyu Yang
-# 
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-# 
-#     http://www.apache.org/licenses/LICENSE-2.0
-# 
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+"""
+.. See the NOTICE file distributed with this work for additional information
+   regarding copyright ownership.
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+       http://www.apache.org/licenses/LICENSE-2.0
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+"""
 
 from __future__ import print_function
 import re
@@ -21,18 +21,31 @@ import os.path
 import shutil
 import ast
 import subprocess
+import sys
 
-with open("../../scripts/config.py") as configfile:
+config_path = sys.argv[1]  # config file is passed in as a commandline argument
+
+# use ast's literal_eval enforces security and parses the config file as a dictionary
+with open(config_path) as configfile:
     config = ast.literal_eval(configfile.read())
 
 tony_assembly = config["tony_assembly"]
 results_dir = config["results_dir"]
-engine = create_engine("tony_assembly")
+
+# connect to database
+engine = create_engine(tony_assembly)
 session = sessionmaker(bind=engine)
 s = session()
 
 
 def verify_jobs(file_dict, sql_session, accession):
+    """
+    Verify if an accession's jobs completed successfully. This function will update the Jobs table accordingly.
+    :param file_dict: a dictionary of output files summary
+    :param sql_session:
+    :param accession:
+    :return:
+    """
     GC, trf, CpG, fasta = [None, None, None, None]
     if os.path.isfile("{results_dir}/{accession}/{accession}.fasta.2.5.7.80.10.40.500.bed".format(results_dir=results_dir, accession=accession)) \
             and os.path.isfile("{results_dir}/{accession}/{accession}.fasta.2.5.7.80.10.40.500.mask".format(results_dir=results_dir, accession=accession)) \
@@ -63,17 +76,26 @@ def verify_jobs(file_dict, sql_session, accession):
 
 
 def reset(accession):
+    """
+    Reset all the jobs' status under the given accession back to NULL (none in Python)
+    :param accession:
+    :return:
+    """
     for job in s.query(Jobs).filter(Jobs.chromosome_accession == accession).all():
         job.status = None
     s.commit()
 
 
 if __name__ == "__main__":
-    # submitted = [x[0] for x in s.query(Jobs).filter(Jobs.status == 1).all()]
     pattern = re.compile(r"\{(\s+)(.+)(\s+)\}", re.DOTALL)
-    running_jobs = [x[4:-4] for x in subprocess.check_output(["bjobs -w | grep -o \"CpG_.*.yml\""], shell=True).strip().split("\n")]
+    # gather running jobs' accessions from lsf's bjobs command
+    running_jobs = [x[4:-4] for x in subprocess.check_output(["bjobs -w | grep -o \"CpG_.*.yml\""],
+                                                             shell=True).strip().split("\n")]
+    # gather accessions of submitted jobs from Jobs table where status == 1
     submitted_jobs = [x[0] for x in s.query(distinct(Jobs.chromosome_accession)).filter(Jobs.status == 1).all()]
+    # finished jobs = submitted jobs - running jobs
     finished_jobs = [x for x in submitted_jobs if x not in running_jobs]
+
     for ena_accession in finished_jobs:
         try:
             match = pattern.findall(open("{results_dir}/{accession}/stdout.txt"

@@ -1,28 +1,33 @@
-# Copyright 2018 Tony Zeyu Yang
-# 
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-# 
-#     http://www.apache.org/licenses/LICENSE-2.0
-# 
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+"""
+.. See the NOTICE file distributed with this work for additional information
+   regarding copyright ownership.
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+       http://www.apache.org/licenses/LICENSE-2.0
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+"""
 
 from __future__ import print_function
-from base import *
-from sqlalchemy import create_engine, Table, MetaData, func, or_
-from sqlalchemy.orm import sessionmaker
+
+import ast
 import sys
-import requests
 import xml.etree.ElementTree as ET
 from datetime import datetime
-import ast
 
-with open("../../scripts/config.py") as configfile:
+import requests
+from sqlalchemy import create_engine, Table, MetaData, func, or_
+from sqlalchemy.orm import sessionmaker
+
+from base import *
+
+config_path = sys.argv[1]
+
+with open(config_path) as configfile:
     config = ast.literal_eval(configfile.read())
 
 tony_assembly = config["tony_assembly"]
@@ -38,6 +43,16 @@ def xml_download(ena_accession):
     try:
         xml = ET.fromstring(requests.get("https://www.ebi.ac.uk/ena/data/view/{}&display=xml".format(ena_accession),
                                          stream=True, timeout=60).content)
+        return xml
+    except requests.exceptions.ReadTimeout:
+        stderr.write("Could not download XML file with accession {}\n".format(ena_accession))
+        return None
+
+
+def xml_download_retry(ena_accession):
+    try:
+        xml = ET.fromstring(requests.get("https://www.ebi.ac.uk/ena/data/view/{}&display=xml".format(ena_accession),
+                                         stream=True, timeout=300).content)
         return xml
     except requests.exceptions.ReadTimeout:
         stderr.write("Could not download XML file with accession {}\n".format(ena_accession))
@@ -109,13 +124,14 @@ for entry in new_accessions:
                 chromosome.accession = chrom_record.attrib["accession"]
                 # print(chromosome.accession)
                 chromosome.name = chrom_record.find("NAME").text
+                chromosome.status = 1
                 chrom_xml = xml_download(chromosome.accession)
                 if chrom_xml is not None:
                     try:
                         chromosome.md5, chromosome.length = chromosome_data(chrom_xml)
                     except AttributeError:
                         stderr.write("Chromosome {} doesn't exit or has corrupted xml file. Chromosome was added "
-                                         "without md5 and length.\n".format(chromosome.accession))
+                                     "without md5 and length.\n".format(chromosome.accession))
                 s.add(chromosome)
                 # print(chromosome.accession, chromosome.GCA_accession,
                 #  chromosome.name, chromosome.length, chromosome.md5)
@@ -136,8 +152,9 @@ for entry in new_accessions:
         stderr.write("{} was not added because XML record is unavailable\n".format(gca.accession))
     stderr.flush()
 
+# retry download chromosome xml record with a longer timeout
 for chromosome in s.query(Chromosome).filter(or_(Chromosome.md5 == None, Chromosome.length == None)).all():
-    chrom_xml = xml_download(chromosome.accession)
+    chrom_xml = xml_download_retry(chromosome.accession)
     if chrom_xml is not None:
         try:
             chromosome.md5, chromosome.length = chromosome_data(chrom_xml)
