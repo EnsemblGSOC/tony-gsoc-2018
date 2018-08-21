@@ -54,7 +54,7 @@ if __name__ == "__main__":
     session = sessionmaker(bind=engine)
     s = session()
     ena_accessions = [x[0] for x in s.query(distinct(Jobs.chromosome_accession))
-                                     .filter(Jobs.status == None).limit(10).all()]
+                                     .filter(Jobs.status == None).all()]
     for ena_accession in ena_accessions:
         generate_yaml_input(ena_accession)
         if ena_accession[0:3] == "GCA":
