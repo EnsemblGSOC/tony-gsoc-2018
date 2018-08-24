@@ -2,7 +2,10 @@
 
 cwlVersion: v1.0
 class: CommandLineTool
-baseCommand: /nfs/software/ensembl/RHEL7-JUL2017-core2/pyenv/versions/tony_cwltool/bin/python
+baseCommand: python
+hints:
+  DockerRequirement:
+    dockerPull: tonyyzy/python2.7_requests
 inputs:
   script:
     type: File
