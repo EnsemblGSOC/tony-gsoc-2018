@@ -40,6 +40,9 @@ def generate_yaml_input(accession):
     workdir = r"{results_dir}/{accession}".format(results_dir=results_dir, accession=accession)
     if not os.path.exists(workdir):
         os.makedirs(workdir)
+    elif os.path.exists(workdir + r"/jobstore"):
+        shutil.rmtree(workdir + r"/jobstore")
+
     if accession[0:3] == "GCA":
         workflow_input = open(workdir + "/Gz_Fasta_GC_TRF_CpG_{}.yml".format(accession), mode="w")
         workflow_input.write("accession: \"{}\"\n".format(accession))
