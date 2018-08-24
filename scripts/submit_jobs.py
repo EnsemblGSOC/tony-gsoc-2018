@@ -33,6 +33,7 @@ results_dir = config ["results_dir"]
 udocker_root = config["udocker_root"]
 toil_dir = config["toil_dir"]
 workflow_dir = config["workflow_dir"]
+scripts_dir = config["scripts_dir"]
 
 
 def generate_yaml_input(accession):
@@ -43,10 +44,12 @@ def generate_yaml_input(accession):
         workflow_input = open(workdir + "/Gz_Fasta_GC_TRF_CpG_{}.yml".format(accession), mode="w")
         workflow_input.write("accession: \"{}\"\n".format(accession))
         shutil.copyfileobj(open("{workflow_dir}/Gz_Fasta_GC_TRF_CpG_vanilla.yml".format(workflow_dir=workflow_dir)), workflow_input)
+        workflow_input.write("  path: {}/gz_url.py".format(scripts_dir))
     else:
         workflow_input = open(workdir + "/Fasta_GC_TRF_CpG_{}.yml".format(accession), mode="w")
         workflow_input.write("accession: \"{}\"\n".format(accession))
         shutil.copyfileobj(open("{workflow_dir}/Fasta_GC_TRF_CpG_vanilla.yml".format(workflow_dir=workflow_dir)), workflow_input)
+        workflow_input.write("  path: {}/md5.sh".format(scripts_dir))
 
 
 if __name__ == "__main__":
