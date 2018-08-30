@@ -47,18 +47,24 @@ def verify_jobs(file_dict, sql_session, accession):
     :return:
     """
     GC, trf, CpG, fasta = [None, None, None, None]
+    # check if trf output files exist
     if os.path.isfile("{results_dir}/{accession}/{accession}.fasta.2.5.7.80.10.40.500.bed".format(results_dir=results_dir, accession=accession)) \
             and os.path.isfile("{results_dir}/{accession}/{accession}.fasta.2.5.7.80.10.40.500.mask".format(results_dir=results_dir, accession=accession)) \
             and os.path.isfile("{results_dir}/{accession}/{accession}.fasta.2.5.7.80.10.40.500.dat".format(results_dir=results_dir, accession=accession)):
-        trf = 0
+        trf = 0  # update trf job status
+    # check if GC output file exists
     if os.path.isfile("{results_dir}/{accession}/{accession}.wig".format(results_dir=results_dir, accession=accession))\
             and file_dict["GCout"]["size"] > 0:
-        GC = 0
+        GC = 0  # update GC job status
+    # check if CpG output file exists
     if os.path.isfile("{results_dir}/{accession}/{accession}.CpG.txt".format(results_dir=results_dir, accession=accession)):
-        CpG = 0
+        CpG = 0  # update CpG job status
+    # check if fasta file exists
     if os.path.isfile("{results_dir}/{accession}/{accession}.fasta".format(results_dir=results_dir, accession=accession))\
             and file_dict["fasta_out"]["size"] > 0:
-        fasta = 0
+        fasta = 0  # update fasta job status
+
+    # update jobs status and add checksum to table
     for job in sql_session.query(Jobs).filter(Jobs.chromosome_accession == accession).all():
         if job.job_name == "GC":
             job.status = GC
@@ -102,22 +108,24 @@ if __name__ == "__main__":
                                          .format(results_dir=results_dir, accession=ena_accession), "r").read())
             if match:  # Result files summary exists
                 output_files = ast.literal_eval("{" + "".join(match[-1]) + "}")
-                if ena_accession[0:3] == "GCA":
+                if ena_accession[0:3] == "GCA":  # scaffold
                     verify_jobs(output_files, s, ena_accession)
-                else:
+                else:  # chromosome
                     with open("{results_dir}/{accession}/{accession}.md5"
                                .format(results_dir=results_dir, accession=ena_accession), "r") as md5:
+                        # check md5 of fasta file against xml record
                         if md5.read(32) == \
                                 s.query(Chromosome.md5).filter(Chromosome.accession == ena_accession).all()[0][0]:
                             verify_jobs(output_files, s, ena_accession)
                         else:
                             reset(ena_accession)
-            else:  # failed job
+            else:  # failed job doesn't have output files summary
                 reset(ena_accession)
         except Exception as e:
             print(e)
             reset(ena_accession)
 
+    # backpropagate Jobs table to Chromosome table for chromosomes and GCA table for scaffolds
     for chromosome_accession in [x[0] for x in
                                  s.query(Jobs.chromosome_accession)
                                          .group_by(Jobs.chromosome_accession)
@@ -129,12 +137,15 @@ if __name__ == "__main__":
                 chromosome.status = 0
     s.commit()
 
+    # backpropagate Chromosome table to GCA table for completed assemblies
     for GCA_accession in [x[0] for x in
                           s.query(Chromosome.GCA_accession)
                                   .group_by(Chromosome.GCA_accession)
                                   .having(func.sum(Chromosome.status) == 0).all()]:
         s.query(GCA).filter(GCA.accession == GCA_accession).scalar().status = 0
         GCAdir = r"{results_dir}/{GCA_accession}".format(results_dir=results_dir, GCA_accession=GCA_accession)
+
+        # copy all chromosomes to the assembly's folder
         if not os.path.exists(GCAdir):
             for chromosome in [x[0] for x in
                                s.query(Chromosome.accession).filter(Chromosome.GCA_accession == GCA_accession)]:

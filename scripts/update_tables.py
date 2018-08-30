@@ -25,6 +25,7 @@ from sqlalchemy.orm import sessionmaker
 
 from base import *
 
+# setup config
 config_path = sys.argv[1]
 
 with open(config_path) as configfile:
@@ -40,6 +41,11 @@ registry = config["registry"]
 
 
 def xml_download(ena_accession):
+    """
+    pulling xml record from ENA
+    :param ena_accession:
+    :return:
+    """
     try:
         xml = ET.fromstring(requests.get("https://www.ebi.ac.uk/ena/data/view/{}&display=xml".format(ena_accession),
                                          stream=True, timeout=60).content)
@@ -50,6 +56,11 @@ def xml_download(ena_accession):
 
 
 def xml_download_retry(ena_accession):
+    """
+    pulling xml record from ENA, some of the records take a longer time to connect, this retry set timeout to be 5 mins
+    :param ena_accession:
+    :return:
+    """
     try:
         xml = ET.fromstring(requests.get("https://www.ebi.ac.uk/ena/data/view/{}&display=xml".format(ena_accession),
                                          stream=True, timeout=300).content)
@@ -60,6 +71,11 @@ def xml_download_retry(ena_accession):
 
 
 def chromosome_number(xml):
+    """
+    find the number of chromosomes within the assembly. If the assembly is assembled to scaffold level, returns 0
+    :param xml:
+    :return:
+    """
     try:
         chroms_number = len(xml.find("ASSEMBLY").find("CHROMOSOMES").findall("CHROMOSOME"))
         return chroms_number
@@ -73,6 +89,11 @@ def get_chromosomes(xml):
 
 
 def chromosome_data(xml):
+    """
+    extract md5 and length of the chromosome from the chromosome's xml record
+    :param xml:
+    :return:
+    """
     for xref in xml.find("entry").findall("xref"):
         if xref.attrib["db"] == "MD5":
             md5 = xref.attrib["id"]
@@ -108,7 +129,7 @@ for entry in new_accessions:
     gca.accession = entry[0]
     # print(gca.accession)
     gca_xml = xml_download(gca.accession)
-    if gca_xml is not None:
+    if gca_xml is not None:  # only add to GCA table if the xml record of the assembly exists
         try:
             gca.assembly_level = gca_xml.find("ASSEMBLY").find("ASSEMBLY_LEVEL").text
         except AttributeError:

@@ -12,10 +12,13 @@
    limitations under the License.
 """
 
-from sqlalchemy import Column, String, Integer, ForeignKey, Boolean
-from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declarative_base
+"""
+Object relationship mapping base classes
+"""
 
+from sqlalchemy import Column, String, Integer, ForeignKey
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship
 
 Base = declarative_base()
 
