@@ -36,6 +36,18 @@ Third-party tools included in the workflows are:
 
 For the final stage, I deployed the workflows to EBI's cluster. My Python [scripts](https://github.com/EnsemblGSOC/tony-gsoc-2018/tree/master/scripts) would retrieve a list of assemblies from an internal database, which is updated daily, consists of the ENA accessions for all the assemblies on ENA's archive. Subsequently, my scripts [`update_tables.py`](https://github.com/EnsemblGSOC/tony-gsoc-2018/blob/master/scripts/update_tables.py) would update my own MySQL database which holds information about the assemblies and their chromosomes, together with all jobs and their statuses. [`submit_jobs.py`](https://github.com/EnsemblGSOC/tony-gsoc-2018/blob/master/scripts/submit_jobs.py) will generate the YAML input files for CWL and submit all waiting jobs to LSF with Toil (a CWL executor with batch system support). Finally, [`process_result.py`](https://github.com/EnsemblGSOC/tony-gsoc-2018/blob/master/scripts/process_result.py) would parse the CWL output and update the jobs' statuses accordingly, then aggregate the result to determine if a whole assembly's jobs are all done.
 
+## Graphical visualisation of the workflows
+Here are the graphs of the two worlflows visualised with [CWL viewer](https://view.commonwl.org/)
+
+[Fasta_GC_TRF_CpG.png](https://github.com/EnsemblGSOC/tony-gsoc-2018/blob/master/workflow/Fasta_GC_TRF_CpG.cwl)
+![Fasta_GC_TRF_CpG.png](https://raw.githubusercontent.com/EnsemblGSOC/tony-gsoc-2018/master/misc/Fasta_GC_TRF_CpG.png)
+[Permalink](https://w3id.org/cwl/view/git/3188978ce422326749cee07906a9c048bfa4ddac/workflow/Fasta_GC_TRF_CpG.cwl)
+
+
+[Gz_Fasta_GC_TRF_CpG.png](https://github.com/EnsemblGSOC/tony-gsoc-2018/blob/master/workflow/Fasta_GC_TRF_CpG.cwl)
+![Gz_Fasta_GC_TRF_CpG.png](https://raw.githubusercontent.com/EnsemblGSOC/tony-gsoc-2018/master/misc/Gz_Fasta_GC_TRF_CpG.png)
+[Permalink](https://w3id.org/cwl/view/git/3188978ce422326749cee07906a9c048bfa4ddac/workflow/Gz_Fasta_GC_TRF_CpG.cwl)
+
 ## Details about the database, deployment and the modularity of the workflow
 Ensembl has an internal registry database which stores information about all the assemblies, which looks like
 ```
